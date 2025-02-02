@@ -1,4 +1,4 @@
 Spectral Distortion
 ---
 
-Ulitmate control over your harmonics
+Ulitmate control over your sound
