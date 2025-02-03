@@ -1,6 +1,7 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
+//#include "PresetManager.h"
 
 #if (MSVC)
 #include "ipps.h"
@@ -38,6 +39,29 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    //Service::PresetManager& getPresetManager() { return *presetManager; }
+
+    juce::AudioProcessorValueTreeState apvts;
+
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
+    {
+        std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+        params.push_back (std::make_unique<juce::AudioParameterFloat> (juce::ParameterID { "TONE", 1 }, "Tone", 1.0f, 2.0f, 0.0f));
+        params.push_back (std::make_unique<juce::AudioParameterFloat> (juce::ParameterID { "POWER", 1 }, "Power", 1.0f, 2.0f, 0.0f));
+        params.push_back (std::make_unique<juce::AudioParameterFloat> (juce::ParameterID { "IN", 1 }, "In Gain", 0.0f, 5.0f, 1.0f));
+        params.push_back (std::make_unique<juce::AudioParameterFloat> (juce::ParameterID { "OUT", 1 }, "Out Gain", 0.0f, 5.0f, 1.0f));
+
+        params.push_back (std::make_unique<juce::AudioParameterBool> (juce::ParameterID { "BYPASS", 1 }, "Bypass", false));
+
+        params.push_back (std::make_unique<juce::AudioParameterChoice> (juce::ParameterID { "MODE", 1 }, "Mode", juce::StringArray { "Crunch", "Potato", "Hiss", "Sour" }, 0));
+
+        return { params.begin(), params.end() };
+    }
+
 private:
+
+    //std::unique_ptr<Service::PresetManager> presetManager;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginProcessor)
 };

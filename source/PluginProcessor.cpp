@@ -10,8 +10,12 @@ PluginProcessor::PluginProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+            ),
+      apvts (*this, nullptr, "Parameters", createParameterLayout())
 {
+    //apvts.state.setProperty (Service::PresetManager::presetNameProperty, "", nullptr);
+    //apvts.state.setProperty ("version", PLUGIN_VERSION, nullptr);
+    //presetManager = std::make_unique<Service::PresetManager> (apvts);
 }
 
 PluginProcessor::~PluginProcessor()
